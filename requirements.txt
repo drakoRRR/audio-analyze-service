@@ -10,3 +10,6 @@ pytest
 fastapi
 httpx
 uvicorn
+SpeechRecognition==3.10.4
+transformers==4.44.2
+nltk

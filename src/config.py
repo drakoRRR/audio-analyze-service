@@ -15,6 +15,7 @@ DB_PORT: int = os.getenv("DB_PORT", default=5432)
 DB_NAME: str = os.getenv("POSTGRES_DB", default="db")
 
 DATABASE_URL: PostgresDsn = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DATABASE_SYNC_URL: PostgresDsn = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 POSTGRES_TEST_USER: str = os.getenv("POSTGRES_TEST_USER", default="postgres_test")
 POSTGRES_TEST_PASSWORD: str = os.getenv("POSTGRES_TEST_PASSWORD", default="postgres_test")
