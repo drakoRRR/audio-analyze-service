@@ -18,6 +18,9 @@ class Category(Base):
     points = Column(String)  # comma-separated points
     calls = relationship("Call", secondary=call_categories, back_populates="categories")
 
+    def __str__(self):
+        return self.title
+
 
 class Call(Base):
     __tablename__ = 'calls'

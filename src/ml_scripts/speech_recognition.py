@@ -3,13 +3,10 @@ from fastapi import BackgroundTasks
 from fastapi.concurrency import run_in_threadpool
 
 
-async def transcribe_audio(audio_url: str):
+async def transcribe_audio(file_path: str):
     recognizer = sr.Recognizer()
-    audio_file = sr.AudioFile(audio_url)
 
-    def sync_transcription():
-        with audio_file as source:
-            audio = recognizer.record(source)
-        return recognizer.recognize_google(audio)
+    with sr.AudioFile(file_path) as source:
+        audio = recognizer.record(source)
 
-    return await run_in_threadpool(sync_transcription)
+    return await run_in_threadpool(recognizer.recognize_sphinx, audio)

@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException
 from src.categories.dal import create_category_in_db, get_category_by_id, get_all_categories_from_db, update_category_in_db, \
     delete_category_from_db
-from src.categories.schemas import CategoryCreate
+from src.categories.schemas import CategoryCreate, CategoryUpdate
 
 
 async def create_category(db: AsyncSession, category_data: CategoryCreate):
@@ -10,18 +10,23 @@ async def create_category(db: AsyncSession, category_data: CategoryCreate):
     return await create_category_in_db(db, category_data.title, points)
 
 
-async def update_category(db: AsyncSession, category_id: int, category_data: CategoryCreate):
+async def update_category(db: AsyncSession, category_id: int, category_data: CategoryUpdate):
     category = await get_category_by_id(db, category_id)
 
     if category is None:
         raise HTTPException(status_code=404, detail="Category not found")
 
-    category.title = category_data.title
-    category.points = ','.join(category_data.points)
+    data_to_update = category_data.dict(exclude_none=True)
 
-    for call in category.calls:
-        if not any(point in call.transcription for point in category_data.points):
-            category.calls.remove(call)
+    if "title" in data_to_update:
+        category.title = data_to_update['title']
+
+    if "points" in data_to_update:
+        category.points = ','.join(data_to_update['points'])
+
+        for call in category.calls:
+            if not any(point in call.transcription for point in data_to_update['points']):
+                category.calls.remove(call)
 
     return await update_category_in_db(db, category)
 

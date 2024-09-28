@@ -7,6 +7,10 @@ load_dotenv()
 
 
 DEBUG: bool = os.getenv("DEBUG", True)
+SECRET_KEY: str = os.getenv("SECRET_KEY", "secret_key")
+
+USER_ADMIN_LOGIN = os.getenv("USER_ADMIN_LOGIN", "admin")
+USER_ADMIN_PASSWORD: str = os.getenv("USER_ADMIN_PASSWORD", "<PASSWORD>")
 
 POSTGRES_USER: str = os.getenv("POSTGRES_USER", default="postgres")
 POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", default="postgres")

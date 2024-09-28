@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.categories.schemas import CategoryCreate, CategoryResponse
+from src.categories.schemas import CategoryCreate, CategoryResponse, CategoryUpdate
 from src.categories.services import delete_category, get_all_categories, update_category, create_category
 from src.database import get_db
 
@@ -15,7 +15,7 @@ async def create_category_route(category: CategoryCreate, db: AsyncSession = Dep
 
 
 @categories_router.put("/{category_id}", response_model=CategoryResponse)
-async def update_category_route(category_id: int, category_data: CategoryCreate, db: AsyncSession = Depends(get_db)):
+async def update_category_route(category_id: int, category_data: CategoryUpdate, db: AsyncSession = Depends(get_db)):
     return await update_category(db, category_id, category_data)
 
 
