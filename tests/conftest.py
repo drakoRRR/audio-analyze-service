@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 
-from src.config import DATABASE_TEST_URL
+from src.config import DATABASE_TEST_URL, DATABASE_TEST_SYNC_URL
 from typing import AsyncGenerator
 from httpx import AsyncClient
 
@@ -16,6 +16,19 @@ from src.database import Base, get_db
 
 test_engine = create_async_engine(DATABASE_TEST_URL, future=True)
 test_session = sessionmaker(test_engine, expire_on_commit=False, class_=AsyncSession)
+
+sync_test_engine = create_engine(DATABASE_TEST_SYNC_URL, future=True)
+sync_test_session = sessionmaker(autocommit=False, autoflush=False, bind=sync_test_engine)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def test_db():
+    """Create and drop the test database tables."""
+    Base.metadata.create_all(bind=sync_test_engine)
+    try:
+        yield
+    finally:
+        Base.metadata.drop_all(bind=sync_test_engine)
 
 
 async def test_get_db() -> AsyncGenerator[AsyncSession, None]:
@@ -46,3 +59,12 @@ async def client():
 async def db_async_session():
     async with test_session() as session:
         yield session
+
+
+@pytest.fixture(scope="function", autouse=True)
+def clean_db():
+    Base.metadata.create_all(bind=sync_test_engine)
+    try:
+        yield
+    finally:
+        Base.metadata.drop_all(bind=sync_test_engine)

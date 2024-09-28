@@ -18,14 +18,17 @@ async def get_call_by_id(db: AsyncSession, call_id: int):
         select(Call).options(joinedload(Call.categories)).filter(Call.id == call_id)
     )
     result = result.scalars().first()
-    return {
-        "id": result.id,
-        "name": result.name,
-        "location": result.location,
-        "emotional_tone": result.emotional_tone,
-        "transcription": result.transcription,
-        "categories": [res.title for res in result.categories],
-    }
+    if result:
+        return {
+            "id": result.id,
+            "name": result.name,
+            "location": result.location,
+            "emotional_tone": result.emotional_tone,
+            "transcription": result.transcription,
+            "categories": [res.title for res in result.categories],
+        }
+    else:
+        return None
 
 
 async def update_call_in_db(db: AsyncSession, call: Call):

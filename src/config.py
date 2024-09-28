@@ -29,3 +29,6 @@ DB_TEST_NAME: str = os.getenv("POSTGRES_DB_TEST", default="db_test")
 
 DATABASE_TEST_URL: PostgresDsn = \
     f"postgresql+asyncpg://{POSTGRES_TEST_USER}:{POSTGRES_TEST_PASSWORD}@{DB_TEST_HOST}:{DB_TEST_PORT}/{DB_TEST_NAME}"
+
+DATABASE_TEST_SYNC_URL: PostgresDsn = \
+    f"postgresql://{POSTGRES_TEST_USER}:{POSTGRES_TEST_PASSWORD}@{DB_TEST_HOST}:{DB_TEST_PORT}/{DB_TEST_NAME}"

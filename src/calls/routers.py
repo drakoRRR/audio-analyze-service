@@ -16,7 +16,7 @@ async def create_call_route(call_data: CallCreate, db: AsyncSession = Depends(ge
     return {"id": call.id}
 
 
-@call_router.get("/{id}", response_model=CallResponse)
+@call_router.get("/{call_id}", response_model=CallResponse)
 async def get_call_route(call_id: int, db: AsyncSession = Depends(get_db)):
     call = await get_call_by_id(db, call_id)
     if not call:

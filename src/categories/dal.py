@@ -13,7 +13,7 @@ async def create_category_in_db(db: AsyncSession, title: str, points: str):
     return {
         "id": new_category.id,
         "title": new_category.title,
-        "points": new_category.points.split(", ")
+        "points": new_category.points.split(",")
     }
 
 
@@ -32,7 +32,7 @@ async def get_all_categories_from_db(db: AsyncSession):
         {
             "id": category.id,
             "title": category.title,
-            "points": category.points.split(", ")
+            "points": category.points.split(",")
         }
         for category in categories
     ]
@@ -44,7 +44,7 @@ async def update_category_in_db(db: AsyncSession, category: Category):
     return {
         "id": category.id,
         "title": category.title,
-        "points": category.points.split(", ")
+        "points": category.points.split(",")
     }
 
 
