@@ -10,7 +10,7 @@ async def test_get_call(client: AsyncClient, db_async_session: AsyncSession):
     db_async_session.add(call)
     await db_async_session.commit()
 
-    response = await client.get(f"/call/{call.id}")
+    response = await client.get(f"/api/call/{call.id}")
 
     assert response.status_code == 200
 
@@ -19,7 +19,7 @@ async def test_get_call(client: AsyncClient, db_async_session: AsyncSession):
 
 
 async def test_get_call_not_found(client: AsyncClient):
-    response = await client.get("/call/999")
+    response = await client.get("/api/call/999")
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Call not found"}

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    container_name: "app"
+    container_name: "VladMusaelyan_devchalange_21"
     build:
       context: .
       dockerfile: Dockerfile

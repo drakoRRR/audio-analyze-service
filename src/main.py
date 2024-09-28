@@ -46,8 +46,8 @@ admin.add_view(CategoryAdmin)
 
 
 main_api_router = APIRouter()
-fastapi_app.include_router(call_router, prefix="/call", tags=["Call"])
-fastapi_app.include_router(categories_router, prefix="/category", tags=["Categories"])
+fastapi_app.include_router(call_router, prefix="/api/call", tags=["Call"])
+fastapi_app.include_router(categories_router, prefix="/api/category", tags=["Categories"])
 fastapi_app.include_router(main_api_router)
 
 
